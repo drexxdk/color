@@ -1,1 +1,75 @@
-﻿
+﻿/* 
+    scss misinterprets css variables in rgba. This fixes it
+    https://github.com/sass/node-sass/issues/2251
+*/
+.button {
+  border-radius: 5px;
+  padding: 5px;
+  cursor: pointer;
+  box-shadow: inset 0 0.0625rem 0 rgba(var(--gray-0), 0.15), 0 0.0625rem 0.0625rem rgba(var(--gray-10), 0.075); }
+  .button + * {
+    margin-top: 5px; }
+  .button.primary {
+    background: rgb(var(--primary-background)) linear-gradient(180deg, rgb(var(--primary-background-gradient)), rgb(var(--primary-background))) repeat-x;
+    color: rgb(var(--primary-text));
+    border: 1px solid rgb(var(--primary-border)); }
+    .button.primary:hover {
+      background: rgb(var(--primary-hover-background)) linear-gradient(180deg, rgb(var(--primary-hover-background-gradient)), rgb(var(--primary-hover-background))) repeat-x;
+      color: rgb(var(--primary-hover-text));
+      border: 1px solid rgb(var(--primary-hover-border)); }
+  .button.secondary {
+    background: rgb(var(--secondary-background)) linear-gradient(180deg, rgb(var(--secondary-background-gradient)), rgb(var(--secondary-background))) repeat-x;
+    color: rgb(var(--secondary-text));
+    border: 1px solid rgb(var(--secondary-border)); }
+    .button.secondary:hover {
+      background: rgb(var(--secondary-hover-background)) linear-gradient(180deg, rgb(var(--secondary-hover-background-gradient)), rgb(var(--secondary-hover-background))) repeat-x;
+      color: rgb(var(--secondary-hover-text));
+      border: 1px solid rgb(var(--secondary-hover-border)); }
+  .button.success {
+    background: rgb(var(--success-background)) linear-gradient(180deg, rgb(var(--success-background-gradient)), rgb(var(--success-background))) repeat-x;
+    color: rgb(var(--success-text));
+    border: 1px solid rgb(var(--success-border)); }
+    .button.success:hover {
+      background: rgb(var(--success-hover-background)) linear-gradient(180deg, rgb(var(--success-hover-background-gradient)), rgb(var(--success-hover-background))) repeat-x;
+      color: rgb(var(--success-hover-text));
+      border: 1px solid rgb(var(--success-hover-border)); }
+  .button.info {
+    background: rgb(var(--info-background)) linear-gradient(180deg, rgb(var(--info-background-gradient)), rgb(var(--info-background))) repeat-x;
+    color: rgb(var(--info-text));
+    border: 1px solid rgb(var(--info-border)); }
+    .button.info:hover {
+      background: rgb(var(--info-hover-background)) linear-gradient(180deg, rgb(var(--info-hover-background-gradient)), rgb(var(--info-hover-background))) repeat-x;
+      color: rgb(var(--info-hover-text));
+      border: 1px solid rgb(var(--info-hover-border)); }
+  .button.warning {
+    background: rgb(var(--warning-background)) linear-gradient(180deg, rgb(var(--warning-background-gradient)), rgb(var(--warning-background))) repeat-x;
+    color: rgb(var(--warning-text));
+    border: 1px solid rgb(var(--warning-border)); }
+    .button.warning:hover {
+      background: rgb(var(--warning-hover-background)) linear-gradient(180deg, rgb(var(--warning-hover-background-gradient)), rgb(var(--warning-hover-background))) repeat-x;
+      color: rgb(var(--warning-hover-text));
+      border: 1px solid rgb(var(--warning-hover-border)); }
+  .button.danger {
+    background: rgb(var(--danger-background)) linear-gradient(180deg, rgb(var(--danger-background-gradient)), rgb(var(--danger-background))) repeat-x;
+    color: rgb(var(--danger-text));
+    border: 1px solid rgb(var(--danger-border)); }
+    .button.danger:hover {
+      background: rgb(var(--danger-hover-background)) linear-gradient(180deg, rgb(var(--danger-hover-background-gradient)), rgb(var(--danger-hover-background))) repeat-x;
+      color: rgb(var(--danger-hover-text));
+      border: 1px solid rgb(var(--danger-hover-border)); }
+  .button.light {
+    background: rgb(var(--light-background)) linear-gradient(180deg, rgb(var(--light-background-gradient)), rgb(var(--light-background))) repeat-x;
+    color: rgb(var(--light-text));
+    border: 1px solid rgb(var(--light-border)); }
+    .button.light:hover {
+      background: rgb(var(--light-hover-background)) linear-gradient(180deg, rgb(var(--light-hover-background-gradient)), rgb(var(--light-hover-background))) repeat-x;
+      color: rgb(var(--light-hover-text));
+      border: 1px solid rgb(var(--light-hover-border)); }
+  .button.dark {
+    background: rgb(var(--dark-background)) linear-gradient(180deg, rgb(var(--dark-background-gradient)), rgb(var(--dark-background))) repeat-x;
+    color: rgb(var(--dark-text));
+    border: 1px solid rgb(var(--dark-border)); }
+    .button.dark:hover {
+      background: rgb(var(--dark-hover-background)) linear-gradient(180deg, rgb(var(--dark-hover-background-gradient)), rgb(var(--dark-hover-background))) repeat-x;
+      color: rgb(var(--dark-hover-text));
+      border: 1px solid rgb(var(--dark-hover-border)); }
