@@ -1,6 +1,7 @@
 var layoutr = window.layoutr || {};
 
 layoutr.body = document.body;
+
 let themes = [
     {
         name: 'light',
@@ -112,7 +113,7 @@ let hexToRgb = hex => {
 };
 
 let setupTheme = (theme) => {
-    theme = themes[0];
+    theme = themes[theme];
     theme.body = hexToRgb(theme.body);
     for (let [i, gray] of theme.grays.entries()) {
         layoutr.body.style.setProperty(`--gray-${i}`, `${hexToRgb(gray)}`);
