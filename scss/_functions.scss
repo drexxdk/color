@@ -1,0 +1,50 @@
+﻿/// <reference path="references" />
+
+@function strip-unit($number) {
+    @if type-of($number) == 'number' and not unitless($number) {
+        @return $number / ($number * 0 + 1);
+    }
+
+    @return $number;
+}
+
+@function rem($size) {
+    $value: strip-unit($size) / $rem-difference;
+    @return $value * 1rem;
+}
+
+/* 
+    scss misinterprets css variables in rgba. This fixes it
+    https://github.com/sass/node-sass/issues/2251
+*/
+@function rgb($r, $g: null, $b: null ) {
+    @if ($g == null) {
+        @return unquote('rgb(#{$r})');
+    }
+
+    @if ($g and $b) {
+        @return unquote('rgb(#{$r}, #{$g}, #{$b})');
+    }
+
+    @error "wrong number of arguments";
+}
+
+@function rgba($r, $g, $b: null, $a: null ) {
+    @if ($b == null) {
+        @return unquote('rgba(#{$r}, #{$g})');
+    }
+
+    @if ($b and $a) {
+        @return unquote('rgba(#{$r}, #{$g}, #{$b}, #{$a})');
+    }
+
+    @error "wrong number of arguments";
+}
+
+@function color($rgb, $a: null) {
+    @if($a == null) {
+        @return rgb(var(--#{$rgb}));
+    }
+
+    @return rgba(var(--#{$rgb}), $a);
+}

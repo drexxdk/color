@@ -1,0 +1,22 @@
+﻿/// <reference path="references" />
+
+.button {
+    border-radius: 5px;
+    padding: 5px;
+    cursor: pointer;
+    box-shadow: $box-shadow;
+
+    @each $theme in $themes {
+        &.theme-#{$theme} {
+            background: color(#{$theme}-background) linear-gradient(180deg, color(#{$theme}-background-gradient), color(#{$theme}-background)) repeat-x;
+            color: color(#{$theme}-text);
+            border: 1px solid color(#{$theme}-border);
+
+            &:hover {
+                background: color(#{$theme}-hover-background) linear-gradient(180deg, color(#{$theme}-hover-background-gradient), color(#{$theme}-hover-background)) repeat-x;
+                color: color(#{$theme}-hover-text);
+                border: 1px solid color(#{$theme}-hover-border);
+            }
+        }
+    }
+}

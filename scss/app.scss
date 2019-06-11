@@ -1,71 +1,23 @@
-﻿$themes: ( primary, secondary, success, info, warning, danger, light, dark );
+﻿@import "functions";
+@import "mixins";
+@import "variables";
 
-$rem-difference: 16;
-
-@function strip-unit($number) {
-    @if type-of($number) == 'number' and not unitless($number) {
-        @return $number / ($number * 0 + 1);
-    }
-
-    @return $number;
+button,
+body {
+    font-size: 18px;
+    font-weight: 200;
+    font-family: sans-serif;
 }
 
-@function rem($size) {
-    $value: strip-unit($size) / $rem-difference;
-    @return $value * 1rem;
-}
+.flex {
+    display: flex;
+    flex-wrap: wrap;
+    margin: -5px 0 0 -5px;
 
-/* 
-    scss misinterprets css variables in rgba. This fixes it
-    https://github.com/sass/node-sass/issues/2251
-*/
-@function rgb($r, $g: null, $b: null ) {
-    @if ($g == null) {
-        @return unquote('rgb(#{$r})');
-    }
-
-    @if ($g and $b) {
-        @return unquote('rgb(#{$r}, #{$g}, #{$b})');
-    }
-
-    @error "wrong number of arguments";
-}
-
-@function rgba($r, $g, $b: null, $a: null ) {
-    @if ($b == null) {
-        @return unquote('rgba(#{$r}, #{$g})');
-    }
-
-    @if ($b and $a) {
-        @return unquote('rgba(#{$r}, #{$g}, #{$b}, #{$a})');
-    }
-
-    @error "wrong number of arguments";
-}
-
-$box-shadow: inset 0 rem(1px) 0 rgba(var(--gray-0),.15), 0 rem(1px) rem(1px) rgba(var(--gray-10),.075);
-
-.button {
-    border-radius: 5px;
-    padding: 5px;
-    cursor: pointer;
-    box-shadow: $box-shadow;
-
-    & + * {
-        margin-top: 5px;
-    }
-
-    @each $theme in $themes {
-        &.#{$theme} {
-            background: rgb(var(--#{$theme}-background)) linear-gradient(180deg, rgb(var(--#{$theme}-background-gradient)), rgb(var(--#{$theme}-background))) repeat-x;
-            color: rgb(var(--#{$theme}-text));
-            border: 1px solid rgb(var(--#{$theme}-border));
-
-            &:hover {
-                background: rgb(var(--#{$theme}-hover-background)) linear-gradient(180deg, rgb(var(--#{$theme}-hover-background-gradient)), rgb(var(--#{$theme}-hover-background))) repeat-x;
-                color: rgb(var(--#{$theme}-hover-text));
-                border: 1px solid rgb(var(--#{$theme}-hover-border));
-            }
-        }
+    > * {
+        margin: 5px 0 0 5px;
     }
 }
+
+@import "button";
+@import "alert";

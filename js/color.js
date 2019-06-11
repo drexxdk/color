@@ -103,6 +103,17 @@ let mix = (rgb1, rgb2, amount) => {
     ];
 };
 
+let saturate = (color, saturation) => {
+    saturation = saturation / 100;
+    var gray = color[0] * 0.3086 + color[1] * 0.6094 + color[2] * 0.0820;
+
+    color[0] = Math.round(color[0] * saturation + gray * (1 - saturation));
+    color[1] = Math.round(color[1] * saturation + gray * (1 - saturation));
+    color[2] = Math.round(color[2] * saturation + gray * (1 - saturation));
+
+    return color;
+};
+
 let hexToRgb = hex => {
     let result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
     return result ? [
@@ -116,7 +127,7 @@ let setupTheme = (theme) => {
     theme = themes[theme];
     theme.body = hexToRgb(theme.body);
     for (let [i, gray] of theme.grays.entries()) {
-        layoutr.body.style.setProperty(`--gray-${i}`, `${hexToRgb(gray)}`);
+        layoutr.body.style.setProperty(`--gray-${i * 10}`, `${hexToRgb(gray)}`);
     }
 
     for (color of theme.colors) {
@@ -127,12 +138,19 @@ let setupTheme = (theme) => {
         layoutr.body.style.setProperty(`--${color.name}-text`, `${defaultForeground}`);
         layoutr.body.style.setProperty(`--${color.name}-border`, `${darken(defaultBackground, 10)}`);
 
-        let hoverBackground = darken(defaultBackground, 7.5),
+        let hoverBackground = darken(defaultBackground, 10),
             hoverForeground = yiq(hoverBackground);
         layoutr.body.style.setProperty(`--${color.name}-hover-background`, `${hoverBackground}`);
         layoutr.body.style.setProperty(`--${color.name}-hover-background-gradient`, `${mix(theme.body, hoverBackground, 15)}`);
         layoutr.body.style.setProperty(`--${color.name}-hover-text`, `${hoverForeground}`);
         layoutr.body.style.setProperty(`--${color.name}-hover-border`, `${darken(hoverBackground, 10)}`);
+        
+        let softBackground = mix(defaultBackground, [255,255,255], 25),
+            softForeground = yiq(softBackground);
+        layoutr.body.style.setProperty(`--${color.name}-soft-background`, `${softBackground}`);
+        layoutr.body.style.setProperty(`--${color.name}-soft-background-gradient`, `${mix(theme.body, softBackground, 15)}`);
+        layoutr.body.style.setProperty(`--${color.name}-soft-text`, `${softForeground}`);
+        layoutr.body.style.setProperty(`--${color.name}-soft-border`, `${darken(softBackground, 10)}`);
     }
 };
 

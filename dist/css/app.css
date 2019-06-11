@@ -2,74 +2,162 @@
     scss misinterprets css variables in rgba. This fixes it
     https://github.com/sass/node-sass/issues/2251
 */
+button,
+body {
+  font-size: 18px;
+  font-weight: 200;
+  font-family: sans-serif; }
+
+.flex {
+  display: flex;
+  flex-wrap: wrap;
+  margin: -5px 0 0 -5px; }
+  .flex > * {
+    margin: 5px 0 0 5px; }
+
 .button {
   border-radius: 5px;
   padding: 5px;
   cursor: pointer;
   box-shadow: inset 0 0.0625rem 0 rgba(var(--gray-0), 0.15), 0 0.0625rem 0.0625rem rgba(var(--gray-10), 0.075); }
-  .button + * {
-    margin-top: 5px; }
-  .button.primary {
+  .button.theme-primary {
     background: rgb(var(--primary-background)) linear-gradient(180deg, rgb(var(--primary-background-gradient)), rgb(var(--primary-background))) repeat-x;
     color: rgb(var(--primary-text));
     border: 1px solid rgb(var(--primary-border)); }
-    .button.primary:hover {
+    .button.theme-primary:hover {
       background: rgb(var(--primary-hover-background)) linear-gradient(180deg, rgb(var(--primary-hover-background-gradient)), rgb(var(--primary-hover-background))) repeat-x;
       color: rgb(var(--primary-hover-text));
       border: 1px solid rgb(var(--primary-hover-border)); }
-  .button.secondary {
+  .button.theme-secondary {
     background: rgb(var(--secondary-background)) linear-gradient(180deg, rgb(var(--secondary-background-gradient)), rgb(var(--secondary-background))) repeat-x;
     color: rgb(var(--secondary-text));
     border: 1px solid rgb(var(--secondary-border)); }
-    .button.secondary:hover {
+    .button.theme-secondary:hover {
       background: rgb(var(--secondary-hover-background)) linear-gradient(180deg, rgb(var(--secondary-hover-background-gradient)), rgb(var(--secondary-hover-background))) repeat-x;
       color: rgb(var(--secondary-hover-text));
       border: 1px solid rgb(var(--secondary-hover-border)); }
-  .button.success {
+  .button.theme-success {
     background: rgb(var(--success-background)) linear-gradient(180deg, rgb(var(--success-background-gradient)), rgb(var(--success-background))) repeat-x;
     color: rgb(var(--success-text));
     border: 1px solid rgb(var(--success-border)); }
-    .button.success:hover {
+    .button.theme-success:hover {
       background: rgb(var(--success-hover-background)) linear-gradient(180deg, rgb(var(--success-hover-background-gradient)), rgb(var(--success-hover-background))) repeat-x;
       color: rgb(var(--success-hover-text));
       border: 1px solid rgb(var(--success-hover-border)); }
-  .button.info {
+  .button.theme-info {
     background: rgb(var(--info-background)) linear-gradient(180deg, rgb(var(--info-background-gradient)), rgb(var(--info-background))) repeat-x;
     color: rgb(var(--info-text));
     border: 1px solid rgb(var(--info-border)); }
-    .button.info:hover {
+    .button.theme-info:hover {
       background: rgb(var(--info-hover-background)) linear-gradient(180deg, rgb(var(--info-hover-background-gradient)), rgb(var(--info-hover-background))) repeat-x;
       color: rgb(var(--info-hover-text));
       border: 1px solid rgb(var(--info-hover-border)); }
-  .button.warning {
+  .button.theme-warning {
     background: rgb(var(--warning-background)) linear-gradient(180deg, rgb(var(--warning-background-gradient)), rgb(var(--warning-background))) repeat-x;
     color: rgb(var(--warning-text));
     border: 1px solid rgb(var(--warning-border)); }
-    .button.warning:hover {
+    .button.theme-warning:hover {
       background: rgb(var(--warning-hover-background)) linear-gradient(180deg, rgb(var(--warning-hover-background-gradient)), rgb(var(--warning-hover-background))) repeat-x;
       color: rgb(var(--warning-hover-text));
       border: 1px solid rgb(var(--warning-hover-border)); }
-  .button.danger {
+  .button.theme-danger {
     background: rgb(var(--danger-background)) linear-gradient(180deg, rgb(var(--danger-background-gradient)), rgb(var(--danger-background))) repeat-x;
     color: rgb(var(--danger-text));
     border: 1px solid rgb(var(--danger-border)); }
-    .button.danger:hover {
+    .button.theme-danger:hover {
       background: rgb(var(--danger-hover-background)) linear-gradient(180deg, rgb(var(--danger-hover-background-gradient)), rgb(var(--danger-hover-background))) repeat-x;
       color: rgb(var(--danger-hover-text));
       border: 1px solid rgb(var(--danger-hover-border)); }
-  .button.light {
+  .button.theme-light {
     background: rgb(var(--light-background)) linear-gradient(180deg, rgb(var(--light-background-gradient)), rgb(var(--light-background))) repeat-x;
     color: rgb(var(--light-text));
     border: 1px solid rgb(var(--light-border)); }
-    .button.light:hover {
+    .button.theme-light:hover {
       background: rgb(var(--light-hover-background)) linear-gradient(180deg, rgb(var(--light-hover-background-gradient)), rgb(var(--light-hover-background))) repeat-x;
       color: rgb(var(--light-hover-text));
       border: 1px solid rgb(var(--light-hover-border)); }
-  .button.dark {
+  .button.theme-dark {
     background: rgb(var(--dark-background)) linear-gradient(180deg, rgb(var(--dark-background-gradient)), rgb(var(--dark-background))) repeat-x;
     color: rgb(var(--dark-text));
     border: 1px solid rgb(var(--dark-border)); }
-    .button.dark:hover {
+    .button.theme-dark:hover {
       background: rgb(var(--dark-hover-background)) linear-gradient(180deg, rgb(var(--dark-hover-background-gradient)), rgb(var(--dark-hover-background))) repeat-x;
       color: rgb(var(--dark-hover-text));
       border: 1px solid rgb(var(--dark-hover-border)); }
+
+.alert {
+  border-radius: 5px;
+  padding: 5px;
+  box-shadow: inset 0 0.0625rem 0 rgba(var(--gray-0), 0.15), 0 0.0625rem 0.0625rem rgba(var(--gray-10), 0.075); }
+  .alert.theme-primary {
+    background: rgb(var(--primary-soft-background)) linear-gradient(180deg, rgb(var(--primary-soft-background-gradient)), rgb(var(--primary-soft-background))) repeat-x;
+    color: rgb(var(--primary-soft-text));
+    border: 1px solid rgb(var(--primary-soft-border));
+    /*&:hover {
+                background: color(primary-soft-hover-background) linear-gradient(180deg, color(primary-soft-hover-background-gradient), color(primary-soft-hover-background)) repeat-x;
+                color: color(primary-soft-hover-text);
+                border: 1px solid color(primary-soft-hover-border);
+            }*/ }
+  .alert.theme-secondary {
+    background: rgb(var(--secondary-soft-background)) linear-gradient(180deg, rgb(var(--secondary-soft-background-gradient)), rgb(var(--secondary-soft-background))) repeat-x;
+    color: rgb(var(--secondary-soft-text));
+    border: 1px solid rgb(var(--secondary-soft-border));
+    /*&:hover {
+                background: color(secondary-soft-hover-background) linear-gradient(180deg, color(secondary-soft-hover-background-gradient), color(secondary-soft-hover-background)) repeat-x;
+                color: color(secondary-soft-hover-text);
+                border: 1px solid color(secondary-soft-hover-border);
+            }*/ }
+  .alert.theme-success {
+    background: rgb(var(--success-soft-background)) linear-gradient(180deg, rgb(var(--success-soft-background-gradient)), rgb(var(--success-soft-background))) repeat-x;
+    color: rgb(var(--success-soft-text));
+    border: 1px solid rgb(var(--success-soft-border));
+    /*&:hover {
+                background: color(success-soft-hover-background) linear-gradient(180deg, color(success-soft-hover-background-gradient), color(success-soft-hover-background)) repeat-x;
+                color: color(success-soft-hover-text);
+                border: 1px solid color(success-soft-hover-border);
+            }*/ }
+  .alert.theme-info {
+    background: rgb(var(--info-soft-background)) linear-gradient(180deg, rgb(var(--info-soft-background-gradient)), rgb(var(--info-soft-background))) repeat-x;
+    color: rgb(var(--info-soft-text));
+    border: 1px solid rgb(var(--info-soft-border));
+    /*&:hover {
+                background: color(info-soft-hover-background) linear-gradient(180deg, color(info-soft-hover-background-gradient), color(info-soft-hover-background)) repeat-x;
+                color: color(info-soft-hover-text);
+                border: 1px solid color(info-soft-hover-border);
+            }*/ }
+  .alert.theme-warning {
+    background: rgb(var(--warning-soft-background)) linear-gradient(180deg, rgb(var(--warning-soft-background-gradient)), rgb(var(--warning-soft-background))) repeat-x;
+    color: rgb(var(--warning-soft-text));
+    border: 1px solid rgb(var(--warning-soft-border));
+    /*&:hover {
+                background: color(warning-soft-hover-background) linear-gradient(180deg, color(warning-soft-hover-background-gradient), color(warning-soft-hover-background)) repeat-x;
+                color: color(warning-soft-hover-text);
+                border: 1px solid color(warning-soft-hover-border);
+            }*/ }
+  .alert.theme-danger {
+    background: rgb(var(--danger-soft-background)) linear-gradient(180deg, rgb(var(--danger-soft-background-gradient)), rgb(var(--danger-soft-background))) repeat-x;
+    color: rgb(var(--danger-soft-text));
+    border: 1px solid rgb(var(--danger-soft-border));
+    /*&:hover {
+                background: color(danger-soft-hover-background) linear-gradient(180deg, color(danger-soft-hover-background-gradient), color(danger-soft-hover-background)) repeat-x;
+                color: color(danger-soft-hover-text);
+                border: 1px solid color(danger-soft-hover-border);
+            }*/ }
+  .alert.theme-light {
+    background: rgb(var(--light-soft-background)) linear-gradient(180deg, rgb(var(--light-soft-background-gradient)), rgb(var(--light-soft-background))) repeat-x;
+    color: rgb(var(--light-soft-text));
+    border: 1px solid rgb(var(--light-soft-border));
+    /*&:hover {
+                background: color(light-soft-hover-background) linear-gradient(180deg, color(light-soft-hover-background-gradient), color(light-soft-hover-background)) repeat-x;
+                color: color(light-soft-hover-text);
+                border: 1px solid color(light-soft-hover-border);
+            }*/ }
+  .alert.theme-dark {
+    background: rgb(var(--dark-soft-background)) linear-gradient(180deg, rgb(var(--dark-soft-background-gradient)), rgb(var(--dark-soft-background))) repeat-x;
+    color: rgb(var(--dark-soft-text));
+    border: 1px solid rgb(var(--dark-soft-border));
+    /*&:hover {
+                background: color(dark-soft-hover-background) linear-gradient(180deg, color(dark-soft-hover-background-gradient), color(dark-soft-hover-background)) repeat-x;
+                color: color(dark-soft-hover-text);
+                border: 1px solid color(dark-soft-hover-border);
+            }*/ }

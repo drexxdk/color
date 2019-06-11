@@ -1,0 +1,21 @@
+﻿/// <reference path="references" />
+
+.alert {
+    border-radius: 5px;
+    padding: 5px;
+    box-shadow: $box-shadow;
+
+    @each $theme in $themes {
+        &.theme-#{$theme} {
+            background: color(#{$theme}-soft-background) linear-gradient(180deg, color(#{$theme}-soft-background-gradient), color(#{$theme}-soft-background)) repeat-x;
+            color: color(#{$theme}-soft-text);
+            border: 1px solid color(#{$theme}-soft-border);
+
+            /*&:hover {
+                background: color(#{$theme}-soft-hover-background) linear-gradient(180deg, color(#{$theme}-soft-hover-background-gradient), color(#{$theme}-soft-hover-background)) repeat-x;
+                color: color(#{$theme}-soft-hover-text);
+                border: 1px solid color(#{$theme}-soft-hover-border);
+            }*/
+        }
+    }
+}
