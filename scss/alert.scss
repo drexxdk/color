@@ -11,11 +11,9 @@
             color: color(#{$theme}-soft-text);
             border: 1px solid color(#{$theme}-soft-border);
 
-            /*&:hover {
-                background: color(#{$theme}-soft-hover-background) linear-gradient(180deg, color(#{$theme}-soft-hover-background-gradient), color(#{$theme}-soft-hover-background)) repeat-x;
-                color: color(#{$theme}-soft-hover-text);
-                border: 1px solid color(#{$theme}-soft-hover-border);
-            }*/
+            a {
+                color: color(#{$theme}-soft-link);
+            }
         }
     }
 }

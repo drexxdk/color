@@ -12,10 +12,18 @@
             color: color(#{$theme}-text);
             border: 1px solid color(#{$theme}-border);
 
+            a {
+                color: color(#{$theme}-link);
+            }
+
             &:hover {
                 background: color(#{$theme}-hover-background) linear-gradient(180deg, color(#{$theme}-hover-background-gradient), color(#{$theme}-hover-background)) repeat-x;
                 color: color(#{$theme}-hover-text);
                 border: 1px solid color(#{$theme}-hover-border);
+
+                a {
+                    color: color(#{$theme}-hover-link);
+                }
             }
         }
     }
