@@ -6,6 +6,7 @@ let themes = [
     {
         name: 'light',
         body: '#f1f1f1',
+        link: '#0072ED',
         grays: [
             "#ffffff",
             "#f8f9fa",
@@ -77,7 +78,7 @@ let alpha = (rgb, percent) => {
 };
 
 let yiq = rgb => {
-    return rgb[0] * 0.299 + rgb[1] * 0.587 + rgb[2] * 0.114 > 145 ? [0, 0, 0] : [255, 255, 255];
+    return rgb[0] * 0.299 + rgb[1] * 0.587 + rgb[2] * 0.114 > 128 ? [0, 0, 0] : [255, 255, 255];
 };
 
 let lighten = (rgb, percent) => {
@@ -123,9 +124,61 @@ let hexToRgb = hex => {
     ] : null;
 };
 
+let luminance = color => {
+    var a = color.map((v) => {
+        v /= 255;
+        return v <= .03928
+            ? v / 12.92
+            : Math.pow((v + 0.055) / 1.055, 2.4);
+    });
+    return (a[0] * .2126 + a[1] * .7152 + a[2] * .0722);
+};
+
+let contrast = (rgb1, rgb2) => {
+    let luma1 = (luminance(rgb1) + 0.05),
+        luma2 = (luminance(rgb2) + 0.05),
+        ratio = luma1 / luma2;
+
+    if (luma1 < luma2) {
+        ratio = 1 / ratio;
+    }
+
+    return ratio;
+}
+
+let textContrast = (color, bgcolor) => {
+    let threshold = 4.5; // 4.5 = WCAG AA,7= WCAG AAA
+    let defaultRatio = contrast(bgcolor, color);
+    if (defaultRatio > threshold) {
+        return color;
+    }
+
+    for (let i = 1; i <= 10; i++) {
+        let percentage = i * 10;
+        let lighter = lighten(color, percentage);
+        let darker = darken(color, percentage);
+        let darkerRatio = contrast(bgcolor, darker);
+        let lighterRatio = contrast(bgcolor, lighter);
+
+        if (lighterRatio > darkerRatio && lighterRatio > threshold) {
+            return lighter;
+        }
+
+        if (darkerRatio > lighterRatio && darkerRatio > threshold) {
+            return darker;
+        }
+    }
+    return yiq(color);
+};
+
 let setupTheme = (theme) => {
     theme = themes[theme];
     theme.body = hexToRgb(theme.body);
+    theme.link = hexToRgb(theme.link);
+
+    layoutr.body.style.setProperty(`--body`, `${theme.body}`);
+    layoutr.body.style.setProperty(`--link`, `${theme.link}`);
+
     for (let [i, gray] of theme.grays.entries()) {
         layoutr.body.style.setProperty(`--gray-${i * 10}`, `${hexToRgb(gray)}`);
     }
@@ -137,6 +190,8 @@ let setupTheme = (theme) => {
         layoutr.body.style.setProperty(`--${color.name}-background-gradient`, `${mix(theme.body, defaultBackground, 15)}`);
         layoutr.body.style.setProperty(`--${color.name}-text`, `${defaultForeground}`);
         layoutr.body.style.setProperty(`--${color.name}-border`, `${darken(defaultBackground, 10)}`);
+        layoutr.body.style.setProperty(`--${color.name}-link`, `${textContrast(theme.link, defaultBackground)}`);
+
 
         let hoverBackground = darken(defaultBackground, 10),
             hoverForeground = yiq(hoverBackground);
@@ -144,13 +199,15 @@ let setupTheme = (theme) => {
         layoutr.body.style.setProperty(`--${color.name}-hover-background-gradient`, `${mix(theme.body, hoverBackground, 15)}`);
         layoutr.body.style.setProperty(`--${color.name}-hover-text`, `${hoverForeground}`);
         layoutr.body.style.setProperty(`--${color.name}-hover-border`, `${darken(hoverBackground, 10)}`);
-        
-        let softBackground = mix(defaultBackground, [255,255,255], 25),
+        layoutr.body.style.setProperty(`--${color.name}-hover-link`, `${textContrast(theme.link, hoverBackground)}`);
+
+        let softBackground = mix(defaultBackground, [255, 255, 255], 25),
             softForeground = yiq(softBackground);
         layoutr.body.style.setProperty(`--${color.name}-soft-background`, `${softBackground}`);
         layoutr.body.style.setProperty(`--${color.name}-soft-background-gradient`, `${mix(theme.body, softBackground, 15)}`);
         layoutr.body.style.setProperty(`--${color.name}-soft-text`, `${softForeground}`);
         layoutr.body.style.setProperty(`--${color.name}-soft-border`, `${darken(softBackground, 10)}`);
+        layoutr.body.style.setProperty(`--${color.name}-soft-link`, `${textContrast(theme.link, softBackground)}`);
     }
 };
 
