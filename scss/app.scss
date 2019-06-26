@@ -7,6 +7,14 @@ body {
     font-size: 18px;
     font-weight: 200;
     font-family: sans-serif;
+    background-color: color(body);
+}
+
+a {
+    color: color(link);
+    &:hover {
+        text-decoration: none;
+    }
 }
 
 .flex {

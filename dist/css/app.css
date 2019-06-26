@@ -6,7 +6,13 @@ button,
 body {
   font-size: 18px;
   font-weight: 200;
-  font-family: sans-serif; }
+  font-family: sans-serif;
+  background-color: rgb(var(--body)); }
+
+a {
+  color: rgb(var(--link)); }
+  a:hover {
+    text-decoration: none; }
 
 .flex {
   display: flex;
