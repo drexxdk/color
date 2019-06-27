@@ -9,7 +9,5 @@ Properties/
 dist/css/theme/light.css
 node_modules/
 package-lock.json
-compilerconfig.*
-bundleconfig.*
 Web.*
 packages.config

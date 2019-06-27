@@ -6,8 +6,11 @@ button,
 body {
   font-size: 18px;
   font-weight: 200;
-  font-family: sans-serif;
-  background-color: rgb(var(--body)); }
+  font-family: sans-serif; }
+
+body {
+  background-color: rgb(var(--body));
+  color: rgb(var(--text)); }
 
 a {
   color: rgb(var(--link)); }

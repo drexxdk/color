@@ -2,12 +2,28 @@
 @import "mixins";
 @import "variables";
 
+$gray-0: color(gray-0);
+$gray-10: color(gray-10);
+$gray-20: color(gray-20);
+$gray-30: color(gray-30);
+$gray-40: color(gray-40);
+$gray-50: color(gray-50);
+$gray-60: color(gray-60);
+$gray-70: color(gray-70);
+$gray-80: color(gray-80);
+$gray-90: color(gray-90);
+$gray-100: color(gray-100);
+
 button,
 body {
     font-size: 18px;
     font-weight: 200;
     font-family: sans-serif;
+}
+
+body {
     background-color: color(body);
+    color: color(text);
 }
 
 a {

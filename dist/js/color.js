@@ -2,114 +2,120 @@ var layoutr = window.layoutr || {};
 
 layoutr.body = document.body;
 
-let COLOR_WHITE = [255, 255, 255],
-    COLOR_BLACK = [0, 0, 0],
-    themes = [
-        {
-            name: 'light',
-            body: '#f1f1f1',
-            link: '#0072ED',
-            grays: [
-                "#ffffff",
-                "#f8f9fa",
-                "#e9ecef",
-                "#dee2e6",
-                "#ced4da",
-                "#adb5bd",
-                "#6F7780",
-                "#495057",
-                "#343a40",
-                "#212529",
-                "#000000"
-            ],
-            colors: [
-                {
-                    name: "primary",
-                    hex: "#0072ED"
-                },
-                {
-                    name: "secondary",
-                    hex: "#6F7780"
-                },
-                {
-                    name: "success",
-                    hex: "#218838"
-                },
-                {
-                    name: "info",
-                    hex: "#138294"
-                },
-                {
-                    name: "warning",
-                    hex: "#BE5A06"
-                },
-                {
-                    name: "danger",
-                    hex: "#dc3545"
-                },
-                {
-                    name: "light",
-                    hex: "#f8f9fa"
-                },
-                {
-                    name: "dark",
-                    hex: "#343a40"
-                }
-            ]
+let themes = [
+    {
+        name: 'light',
+        body: '#f1f1f1',
+        text: {
+            light: '#ffffff',
+            dark: '#212529'
         },
-        {
-            name: 'dark',
-            body: '#0d0d0d',
-            link: '#0072ED',
-            grays: [
-                "#000000",
-                "#21201F",
-                "#302D2A",
-                "#3B3733",
-                "#4B453F",
-                "#6C645C",
-                "#AAA299",
-                "#D0C9C2",
-                "#E5DFD9",
-                "#F8F4F0",
-                "#ffffff"
-            ],
-            colors: [
-                {
-                    name: "primary",
-                    hex: "#0072ED"
-                },
-                {
-                    name: "secondary",
-                    hex: "#6F7780"
-                },
-                {
-                    name: "success",
-                    hex: "#218838"
-                },
-                {
-                    name: "info",
-                    hex: "#138294"
-                },
-                {
-                    name: "warning",
-                    hex: "#BE5A06"
-                },
-                {
-                    name: "danger",
-                    hex: "#dc3545"
-                },
-                {
-                    name: "light",
-                    hex: "#f8f9fa"
-                },
-                {
-                    name: "dark",
-                    hex: "#343a40"
-                }
-            ]
-        }
-    ];
+        link: '#0072ED',
+        grays: [
+            "#ffffff",
+            "#f8f9fa",
+            "#e9ecef",
+            "#dee2e6",
+            "#ced4da",
+            "#adb5bd",
+            "#6F7780",
+            "#495057",
+            "#343a40",
+            "#212529",
+            "#000000"
+        ],
+        colors: [
+            {
+                name: "primary",
+                hex: "#0072ED"
+            },
+            {
+                name: "secondary",
+                hex: "#6F7780"
+            },
+            {
+                name: "success",
+                hex: "#218838"
+            },
+            {
+                name: "info",
+                hex: "#138294"
+            },
+            {
+                name: "warning",
+                hex: "#BE5A06"
+            },
+            {
+                name: "danger",
+                hex: "#dc3545"
+            },
+            {
+                name: "light",
+                hex: "#f8f9fa"
+            },
+            {
+                name: "dark",
+                hex: "#343a40"
+            }
+        ]
+    },
+    {
+        name: 'dark',
+        body: '#0d0d0d',
+        text: {
+            light: '#ffffff',
+            dark: '#212529'
+        },
+        link: '#0072ED',
+        grays: [
+            "#000000",
+            "#21201F",
+            "#302D2A",
+            "#3B3733",
+            "#4B453F",
+            "#6C645C",
+            "#AAA299",
+            "#D0C9C2",
+            "#E5DFD9",
+            "#F8F4F0",
+            "#ffffff"
+        ],
+        colors: [
+            {
+                name: "primary",
+                hex: "#0072ED"
+            },
+            {
+                name: "secondary",
+                hex: "#6F7780"
+            },
+            {
+                name: "success",
+                hex: "#218838"
+            },
+            {
+                name: "info",
+                hex: "#138294"
+            },
+            {
+                name: "warning",
+                hex: "#BE5A06"
+            },
+            {
+                name: "danger",
+                hex: "#dc3545"
+            },
+            {
+                name: "light",
+                hex: "#f8f9fa"
+            },
+            {
+                name: "dark",
+                hex: "#343a40"
+            }
+        ]
+    }
+];
 
 let alpha = (rgb, percent) => {
     percent = parseInt(255 * percent / 100);
@@ -131,8 +137,8 @@ let alpha = (rgb, percent) => {
     ];
 };
 
-let yiq = rgb => {
-    return rgb[0] * 0.299 + rgb[1] * 0.587 + rgb[2] * 0.114 > 128 ? COLOR_BLACK : COLOR_WHITE;
+let yiq = (rgb, text) => {
+    return rgb[0] * 0.299 + rgb[1] * 0.587 + rgb[2] * 0.114 > 128 ? text.dark : text.light;
 };
 
 let lighten = (rgb, percent) => {
@@ -200,7 +206,7 @@ let contrast = (rgb1, rgb2) => {
     return ratio;
 }
 
-let textContrast = (color, bgcolor, basedOn) => {
+let textContrast = (color, bgcolor, basedOn, text) => {
     let threshold = 4.5; // 4.5 = WCAG AA,7= WCAG AAA
     let defaultRatio = contrast(bgcolor, color);
     if (defaultRatio > threshold) {
@@ -214,33 +220,39 @@ let textContrast = (color, bgcolor, basedOn) => {
         let darkerRatio = contrast(bgcolor, darker);
         let lighterRatio = contrast(bgcolor, lighter);
 
-        if (lighterRatio > darkerRatio && lighterRatio > threshold && (!basedOn || basedOn === COLOR_WHITE)) {
+        if (lighterRatio > darkerRatio && lighterRatio > threshold && (!basedOn || basedOn === text.light)) {
             return lighter;
         }
 
-        if (darkerRatio > lighterRatio && darkerRatio > threshold && (!basedOn || basedOn === COLOR_BLACK)) {
+        if (darkerRatio > lighterRatio && darkerRatio > threshold && (!basedOn || basedOn === text.dark)) {
             return darker;
         }
     }
-    return yiq(color);
+    return yiq(color, text);
 };
 
-let setupTheme = (theme) => {
-    theme = themes.filter(element => {
-        return element.name === theme;
+let setupTheme = (themeName) => {
+    let theme = themes.filter(element => {
+        return element.name === themeName;
     });
     if (theme.length) {
-        theme = theme[0];
+        theme = { ...theme[0] }; // ... clones the object, so it doesn't effect the original theme
     } else {
         console.warn('theme not found');
         return;
     }
-    //themes[theme];
     theme.body = hexToRgb(theme.body);
     theme.link = hexToRgb(theme.link);
+    theme.text = {
+        light: hexToRgb(theme.text.light),
+        dark: hexToRgb(theme.text.dark)
+    };
 
     layoutr.body.style.setProperty(`--body`, `${theme.body}`);
     layoutr.body.style.setProperty(`--link`, `${theme.link}`);
+    layoutr.body.style.setProperty(`--text-light`, `${theme.text.light}`);
+    layoutr.body.style.setProperty(`--text-dark`, `${theme.text.dark}`);
+    layoutr.body.style.setProperty(`--text`, `${yiq(theme.body, theme.text)}`);
 
     for (let [i, gray] of theme.grays.entries()) {
         layoutr.body.style.setProperty(`--gray-${i * 10}`, `${hexToRgb(gray)}`);
@@ -248,29 +260,29 @@ let setupTheme = (theme) => {
 
     for (color of theme.colors) {
         let defaultBackground = hexToRgb(color.hex),
-            defaultForeground = yiq(defaultBackground);
+            defaultForeground = yiq(defaultBackground, theme.text);
         layoutr.body.style.setProperty(`--${color.name}-background`, `${defaultBackground}`);
         layoutr.body.style.setProperty(`--${color.name}-background-gradient`, `${mix(theme.body, defaultBackground, 15)}`);
         layoutr.body.style.setProperty(`--${color.name}-text`, `${defaultForeground}`);
         layoutr.body.style.setProperty(`--${color.name}-border`, `${darken(defaultBackground, 10)}`);
-        layoutr.body.style.setProperty(`--${color.name}-link`, `${textContrast(theme.link, defaultBackground, defaultForeground)}`);
+        layoutr.body.style.setProperty(`--${color.name}-link`, `${textContrast(theme.link, defaultBackground, defaultForeground, theme.text)}`);
 
 
         let hoverBackground = darken(defaultBackground, 10),
-            hoverForeground = yiq(hoverBackground);
+            hoverForeground = yiq(hoverBackground, theme.text);
         layoutr.body.style.setProperty(`--${color.name}-hover-background`, `${hoverBackground}`);
         layoutr.body.style.setProperty(`--${color.name}-hover-background-gradient`, `${mix(theme.body, hoverBackground, 15)}`);
         layoutr.body.style.setProperty(`--${color.name}-hover-text`, `${hoverForeground}`);
         layoutr.body.style.setProperty(`--${color.name}-hover-border`, `${darken(hoverBackground, 10)}`);
-        layoutr.body.style.setProperty(`--${color.name}-hover-link`, `${textContrast(theme.link, hoverBackground, hoverForeground)}`);
+        layoutr.body.style.setProperty(`--${color.name}-hover-link`, `${textContrast(theme.link, hoverBackground, hoverForeground, theme.text)}`);
 
         let softBackground = mix(defaultBackground, [255, 255, 255], 25),
-            softForeground = yiq(softBackground);
+            softForeground = yiq(softBackground, theme.text);
         layoutr.body.style.setProperty(`--${color.name}-soft-background`, `${softBackground}`);
         layoutr.body.style.setProperty(`--${color.name}-soft-background-gradient`, `${mix(theme.body, softBackground, 15)}`);
         layoutr.body.style.setProperty(`--${color.name}-soft-text`, `${softForeground}`);
         layoutr.body.style.setProperty(`--${color.name}-soft-border`, `${darken(softBackground, 10)}`);
-        layoutr.body.style.setProperty(`--${color.name}-soft-link`, `${textContrast(theme.link, softBackground, softForeground)}`);
+        layoutr.body.style.setProperty(`--${color.name}-soft-link`, `${textContrast(theme.link, softBackground, softForeground, theme.text)}`);
     }
 };
 
