@@ -4,8 +4,22 @@ layoutr.body = document.body;
 
 let themes = [
     {
+        background: {
+            hover: -15,
+            soft: 25
+        },
         name: 'light',
         body: '#f1f1f1',
+        overlay: {
+            layout: {
+                light: '#666666',
+                dark: '#999999'
+            },
+            component: {
+                light: '#999999',
+                dark: '#666666'
+            }
+        },
         text: {
             light: '#ffffff',
             dark: '#212529'
@@ -60,8 +74,22 @@ let themes = [
         ]
     },
     {
+        background: {
+            hover: 15,
+            soft: 50
+        },
         name: 'dark',
         body: '#0d0d0d',
+        overlay: {
+            layout: {
+                light: '#999999',
+                dark: '#666666'
+            },
+            component: {
+                light: '#666666',
+                dark: '#999999'
+            }
+        },
         text: {
             light: '#ffffff',
             dark: '#212529'
@@ -69,15 +97,15 @@ let themes = [
         link: '#0072ED',
         grays: [
             "#000000",
-            "#21201F",
-            "#302D2A",
-            "#3B3733",
-            "#4B453F",
-            "#6C645C",
-            "#AAA299",
-            "#D0C9C2",
-            "#E5DFD9",
-            "#F8F4F0",
+            "#212529",
+            "#343a40",
+            "#495057",
+            "#6F7780",
+            "#adb5bd",
+            "#ced4da",
+            "#dee2e6",
+            "#e9ecef",
+            "#f8f9fa",
             "#ffffff"
         ],
         colors: [
@@ -87,7 +115,7 @@ let themes = [
             },
             {
                 name: "secondary",
-                hex: "#6F7780"
+                hex: "#ced4da"
             },
             {
                 name: "success",
@@ -107,11 +135,11 @@ let themes = [
             },
             {
                 name: "light",
-                hex: "#f8f9fa"
+                hex: "#212529"
             },
             {
                 name: "dark",
-                hex: "#343a40"
+                hex: "#e9ecef"
             }
         ]
     }
@@ -152,7 +180,13 @@ let darken = (rgb, percent) => {
 let channelMix = (channel1, channel2, amount) => {
     channel1 = channel1 * amount;
     channel2 = channel2 * (1 - amount);
-    return parseInt(channel1 + channel2);
+    let result = channel1 + channel2;
+    if (result > 255) {
+        result = 255;
+    } else if (result < 0) {
+        result = 0;
+    }
+    return parseInt(result);
 };
 
 let mix = (rgb1, rgb2, amount) => {
@@ -260,29 +294,37 @@ let setupTheme = (themeName) => {
 
     for (color of theme.colors) {
         let defaultBackground = hexToRgb(color.hex),
-            defaultForeground = yiq(defaultBackground, theme.text);
-        layoutr.body.style.setProperty(`--${color.name}-background`, `${defaultBackground}`);
-        layoutr.body.style.setProperty(`--${color.name}-background-gradient`, `${mix(theme.body, defaultBackground, 15)}`);
-        layoutr.body.style.setProperty(`--${color.name}-text`, `${defaultForeground}`);
-        layoutr.body.style.setProperty(`--${color.name}-border`, `${darken(defaultBackground, 10)}`);
-        layoutr.body.style.setProperty(`--${color.name}-link`, `${textContrast(theme.link, defaultBackground, defaultForeground, theme.text)}`);
+            defaultHoverBackground = alpha(defaultBackground, theme.background.hover),
+            softBackground = mix(defaultBackground, hexToRgb(theme.grays[0]), theme.background.soft),
+            softHoverBackground = alpha(softBackground, theme.background.hover);
+        
+        let colors = [
+            {
+                name: 'default',
+                background: defaultBackground
+            },
+            {
+                name: 'default-hover',
+                background: defaultHoverBackground
+            },
+            {
+                name: 'soft',
+                background: softBackground
+            },
+            {
+                name: 'soft-hover',
+                background: softHoverBackground
+            }
+        ];
 
-
-        let hoverBackground = darken(defaultBackground, 10),
-            hoverForeground = yiq(hoverBackground, theme.text);
-        layoutr.body.style.setProperty(`--${color.name}-hover-background`, `${hoverBackground}`);
-        layoutr.body.style.setProperty(`--${color.name}-hover-background-gradient`, `${mix(theme.body, hoverBackground, 15)}`);
-        layoutr.body.style.setProperty(`--${color.name}-hover-text`, `${hoverForeground}`);
-        layoutr.body.style.setProperty(`--${color.name}-hover-border`, `${darken(hoverBackground, 10)}`);
-        layoutr.body.style.setProperty(`--${color.name}-hover-link`, `${textContrast(theme.link, hoverBackground, hoverForeground, theme.text)}`);
-
-        let softBackground = mix(defaultBackground, [255, 255, 255], 25),
-            softForeground = yiq(softBackground, theme.text);
-        layoutr.body.style.setProperty(`--${color.name}-soft-background`, `${softBackground}`);
-        layoutr.body.style.setProperty(`--${color.name}-soft-background-gradient`, `${mix(theme.body, softBackground, 15)}`);
-        layoutr.body.style.setProperty(`--${color.name}-soft-text`, `${softForeground}`);
-        layoutr.body.style.setProperty(`--${color.name}-soft-border`, `${darken(softBackground, 10)}`);
-        layoutr.body.style.setProperty(`--${color.name}-soft-link`, `${textContrast(theme.link, softBackground, softForeground, theme.text)}`);
+        for (let item of colors) {
+            let foreground = yiq(item.background, theme.text);
+            layoutr.body.style.setProperty(`--${color.name}-${item.name}-background`, `${item.background}`);
+            layoutr.body.style.setProperty(`--${color.name}-${item.name}-background-gradient`, `${mix(theme.body, item.background, 15)}`);
+            layoutr.body.style.setProperty(`--${color.name}-${item.name}-text`, `${foreground}`);
+            layoutr.body.style.setProperty(`--${color.name}-${item.name}-border`, `${darken(item.background, 10)}`);
+            layoutr.body.style.setProperty(`--${color.name}-${item.name}-link`, `${textContrast(theme.link, item.background, foreground, theme.text)}`);
+        }
     }
 };
 
