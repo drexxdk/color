@@ -6,23 +6,25 @@
     cursor: pointer;
     box-shadow: $box-shadow;
 
-    @each $theme in $themes {
-        &.theme-#{$theme} {
-            background: color(#{$theme}-default-background) linear-gradient(180deg, color(#{$theme}-default-background-gradient), color(#{$theme}-default-background)) repeat-x;
-            color: color(#{$theme}-default-text);
-            border: 1px solid color(#{$theme}-default-border);
-
-            a {
-                color: color(#{$theme}-link);
-            }
-
-            &:hover {
-                background: color(#{$theme}-default-hover-background) linear-gradient(180deg, color(#{$theme}-default-hover-background-gradient), color(#{$theme}-default-hover-background)) repeat-x;
-                color: color(#{$theme}-default-hover-text);
-                border: 1px solid color(#{$theme}-default-hover-border);
+    @each $variation in $theme-variations {
+        @each $theme in $themes {
+            &.theme-#{$theme}#{$variation} {
+                background: color(#{$theme}#{$variation}-background) linear-gradient(180deg, color(#{$theme}#{$variation}-background-gradient), color(#{$theme}#{$variation}-background)) repeat-x;
+                color: color(#{$theme}#{$variation}-text);
+                border: 1px solid color(#{$theme}#{$variation}-border);
 
                 a {
-                    color: color(#{$theme}-default-hover-link);
+                    color: color(#{$theme}#{$variation}-link);
+                }
+
+                &:hover {
+                    background: color(#{$theme}#{$variation}-hover-background) linear-gradient(180deg, color(#{$theme}#{$variation}-hover-background-gradient), color(#{$theme}#{$variation}-hover-background)) repeat-x;
+                    color: color(#{$theme}#{$variation}-hover-text);
+                    border: 1px solid color(#{$theme}#{$variation}-hover-border);
+
+                    a {
+                        color: color(#{$theme}#{$variation}-hover-link);
+                    }
                 }
             }
         }

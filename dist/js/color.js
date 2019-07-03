@@ -2,82 +2,87 @@ var layoutr = window.layoutr || {};
 
 layoutr.body = document.body;
 
-let themes = [
-    {
-        background: {
-            hover: -15,
-            soft: 25
-        },
-        name: 'light',
-        body: '#f1f1f1',
-        overlay: {
-            layout: {
-                light: '#666666',
-                dark: '#999999'
-            },
-            component: {
-                light: '#999999',
-                dark: '#666666'
-            }
-        },
-        text: {
-            light: '#ffffff',
-            dark: '#212529'
-        },
-        link: '#0072ED',
-        grays: [
-            "#ffffff",
-            "#f8f9fa",
-            "#e9ecef",
-            "#dee2e6",
-            "#ced4da",
-            "#adb5bd",
-            "#6F7780",
-            "#495057",
-            "#343a40",
-            "#212529",
-            "#000000"
-        ],
-        colors: [
-            {
-                name: "primary",
-                hex: "#0072ED"
-            },
-            {
-                name: "secondary",
-                hex: "#6F7780"
-            },
-            {
-                name: "success",
-                hex: "#218838"
-            },
-            {
-                name: "info",
-                hex: "#138294"
-            },
-            {
-                name: "warning",
-                hex: "#BE5A06"
-            },
-            {
-                name: "danger",
-                hex: "#dc3545"
-            },
-            {
-                name: "light",
-                hex: "#f8f9fa"
-            },
-            {
-                name: "dark",
-                hex: "#343a40"
-            }
-        ]
+
+let lightTheme = {
+    background: {
+        hover: -15,
+        soft: 25
     },
+    border: -10,
+    gradient: 15,
+    name: 'light',
+    body: '#f1f1f1',
+    overlay: {
+        layout: {
+            light: '#666666',
+            dark: '#999999'
+        },
+        component: {
+            light: '#999999',
+            dark: '#666666'
+        }
+    },
+    text: {
+        light: '#ffffff',
+        dark: '#212529'
+    },
+    link: '#0072ED',
+    grays: [
+        "#ffffff",
+        "#f8f9fa",
+        "#e9ecef",
+        "#dee2e6",
+        "#ced4da",
+        "#adb5bd",
+        "#6F7780",
+        "#495057",
+        "#343a40",
+        "#212529",
+        "#000000"
+    ],
+    colors: [
+        {
+            name: "primary",
+            hex() { return "#0072ED"; }
+        },
+        {
+            name: "secondary",
+            hex() { return lightTheme.grays[6]; }
+        },
+        {
+            name: "success",
+            hex() { return "#218838"; }
+        },
+        {
+            name: "info",
+            hex() { return "#138294"; }
+        },
+        {
+            name: "warning",
+            hex() { return "#BE5A06"; }
+        },
+        {
+            name: "danger",
+            hex() { return "#dc3545"; }
+        },
+        {
+            name: "light",
+            hex() { return lightTheme.grays[2]; }
+        },
+        {
+            name: "dark",
+            hex() { return lightTheme.grays[8]; }
+        }
+    ]
+},
+    darkTheme =
     {
         background: {
             hover: 15,
             soft: 50
         },
+        border: 10,
+        gradient: 15,
         name: 'dark',
         body: '#0d0d0d',
         overlay: {
@@ -111,39 +116,42 @@ let themes = [
         colors: [
             {
                 name: "primary",
-                hex: "#0072ED"
+                hex() { return "#0072ED"; }
             },
             {
                 name: "secondary",
-                hex: "#ced4da"
+                hex() { return darkTheme.grays[6]; }
             },
             {
                 name: "success",
-                hex: "#218838"
+                hex() { return "#218838"; }
             },
             {
                 name: "info",
-                hex: "#138294"
+                hex() { return "#138294"; }
             },
             {
                 name: "warning",
-                hex: "#BE5A06"
+                hex() { return "#BE5A06"; }
             },
             {
                 name: "danger",
-                hex: "#dc3545"
+                hex() { return "#dc3545"; }
             },
             {
                 name: "light",
-                hex: "#212529"
+                hex() { return darkTheme.grays[2]; }
             },
             {
                 name: "dark",
-                hex: "#e9ecef"
+                hex() { return darkTheme.grays[8]; }
             }
         ]
-    }
-];
+    },
+    themes = [
+        lightTheme,
+        darkTheme
+    ];
 
 let alpha = (rgb, percent) => {
     percent = parseInt(255 * percent / 100);
@@ -225,12 +233,12 @@ let luminance = color => {
             ? v / 12.92
             : Math.pow((v + 0.055) / 1.055, 2.4);
     });
-    return (a[0] * .2126 + a[1] * .7152 + a[2] * .0722);
+    return a[0] * .2126 + a[1] * .7152 + a[2] * .0722;
 };
 
 let contrast = (rgb1, rgb2) => {
-    let luma1 = (luminance(rgb1) + 0.05),
-        luma2 = (luminance(rgb2) + 0.05),
+    let luma1 = luminance(rgb1) + 0.05,
+        luma2 = luminance(rgb2) + 0.05,
         ratio = luma1 / luma2;
 
     if (luma1 < luma2) {
@@ -238,7 +246,7 @@ let contrast = (rgb1, rgb2) => {
     }
 
     return ratio;
-}
+};
 
 let textContrast = (color, bgcolor, basedOn, text) => {
     let threshold = 4.5; // 4.5 = WCAG AA,7= WCAG AAA
@@ -293,37 +301,37 @@ let setupTheme = (themeName) => {
     }
 
     for (color of theme.colors) {
-        let defaultBackground = hexToRgb(color.hex),
+        let defaultBackground = hexToRgb(color.hex()),
             defaultHoverBackground = alpha(defaultBackground, theme.background.hover),
             softBackground = mix(defaultBackground, hexToRgb(theme.grays[0]), theme.background.soft),
             softHoverBackground = alpha(softBackground, theme.background.hover);
-        
+
         let colors = [
             {
-                name: 'default',
+                name: '',
                 background: defaultBackground
             },
             {
-                name: 'default-hover',
+                name: '-hover',
                 background: defaultHoverBackground
             },
             {
-                name: 'soft',
+                name: '-soft',
                 background: softBackground
             },
             {
-                name: 'soft-hover',
+                name: '-soft-hover',
                 background: softHoverBackground
             }
         ];
 
         for (let item of colors) {
             let foreground = yiq(item.background, theme.text);
-            layoutr.body.style.setProperty(`--${color.name}-${item.name}-background`, `${item.background}`);
-            layoutr.body.style.setProperty(`--${color.name}-${item.name}-background-gradient`, `${mix(theme.body, item.background, 15)}`);
-            layoutr.body.style.setProperty(`--${color.name}-${item.name}-text`, `${foreground}`);
-            layoutr.body.style.setProperty(`--${color.name}-${item.name}-border`, `${darken(item.background, 10)}`);
-            layoutr.body.style.setProperty(`--${color.name}-${item.name}-link`, `${textContrast(theme.link, item.background, foreground, theme.text)}`);
+            layoutr.body.style.setProperty(`--${color.name}${item.name}-background`, `${item.background}`);
+            layoutr.body.style.setProperty(`--${color.name}${item.name}-background-gradient`, `${mix(theme.body, item.background, theme.gradient)}`);
+            layoutr.body.style.setProperty(`--${color.name}${item.name}-text`, `${foreground}`);
+            layoutr.body.style.setProperty(`--${color.name}${item.name}-border`, `${alpha(item.background, theme.border)}`);
+            layoutr.body.style.setProperty(`--${color.name}${item.name}-link`, `${textContrast(theme.link, item.background, foreground, theme.text)}`);
         }
     }
 };
