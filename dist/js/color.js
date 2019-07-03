@@ -43,35 +43,35 @@ let lightTheme = {
     colors: [
         {
             name: "primary",
-            hex() { return "#0072ED"; }
+            hex: () => { return "#0072ED"; }
         },
         {
             name: "secondary",
-            hex() { return lightTheme.grays[6]; }
+            hex: () => { return lightTheme.grays[6]; }
         },
         {
             name: "success",
-            hex() { return "#218838"; }
+            hex: () => { return "#218838"; }
         },
         {
             name: "info",
-            hex() { return "#138294"; }
+            hex: () => { return "#138294"; }
         },
         {
             name: "warning",
-            hex() { return "#BE5A06"; }
+            hex: () => { return "#BE5A06"; }
         },
         {
             name: "danger",
-            hex() { return "#dc3545"; }
+            hex: () => { return "#dc3545"; }
         },
         {
             name: "light",
-            hex() { return lightTheme.grays[2]; }
+            hex: () => { return lightTheme.grays[2]; }
         },
         {
             name: "dark",
-            hex() { return lightTheme.grays[8]; }
+            hex: () => { return lightTheme.grays[8]; }
         }
     ]
 },
@@ -116,35 +116,35 @@ let lightTheme = {
         colors: [
             {
                 name: "primary",
-                hex() { return "#0072ED"; }
+                hex: () => { return "#0072ED"; }
             },
             {
                 name: "secondary",
-                hex() { return darkTheme.grays[6]; }
+                hex: () => { return darkTheme.grays[6]; }
             },
             {
                 name: "success",
-                hex() { return "#218838"; }
+                hex: () => { return "#218838"; }
             },
             {
                 name: "info",
-                hex() { return "#138294"; }
+                hex: () => { return "#138294"; }
             },
             {
                 name: "warning",
-                hex() { return "#BE5A06"; }
+                hex: () => { return "#BE5A06"; }
             },
             {
                 name: "danger",
-                hex() { return "#dc3545"; }
+                hex: () => { return "#dc3545"; }
             },
             {
                 name: "light",
-                hex() { return darkTheme.grays[2]; }
+                hex: () => { return darkTheme.grays[2]; }
             },
             {
                 name: "dark",
-                hex() { return darkTheme.grays[8]; }
+                hex: () => { return darkTheme.grays[8]; }
             }
         ]
     },
